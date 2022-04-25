@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Edit attraction{% endblock %}</title>
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<header>
+    <h1>My Travel</h1>
+    <div class="nav">
+        <a href="/about">About</a>
+        <a href="/">Home</a>
+    </div>
+</header>
+<body>
+{% block body %}
+<br>
+<form method="post">
+    <div>
+        <label>Name: </label>
+        <input type="text" name="name" value="{{ attraction.name }}">
+    </div>
+    <div>
+        <label>Score: </label>
+        <input type="number" min="0" max="10" value="{{ attraction.score }}" name="score">
+    </div>
+    <div>
+        <label>Short Description:</label>
+        <input type="text" name="shortDescription" value="{{ attraction.shortDescription }}" maxlength="255">
+    </div>
+    <div>
+        <label>Full Description: </label>
+        <input type="text" name="fullDescription" maxlength="255"
+                  value="{{ attraction.fullDescription }}">
+    </div>
+    <br>
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}
+</body>
+<footer>
+    <p>&copy; Copyright 2022 My Travel</p>
+</footer>
+</html>
