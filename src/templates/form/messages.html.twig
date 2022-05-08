@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Home{% endblock %}</title>
+    <title>{% block title %}Forms{% endblock %}</title>
     <link rel="icon"
           href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
     {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
@@ -15,16 +15,15 @@
     {% endblock %}
 </head>
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">My Travel</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{ path('app_home_index') }}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_hotel_index') }}">Hotels</a>
@@ -47,23 +46,15 @@
 </header>
 <body>
 {% block body %}
-    <div
-            class="p-5 text-center bg-image"
-            style="
-                    background-image: url({{ asset("build/images/travel.jpg") }});
-                    height: 400px;
-                    "
-    >
-        <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <div class="text-white">
-                    <h1 class="mb-3">Welcome to My Travel</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Background image -->
-
+    <br>
+    <h2>Forms</h2>
+    <ul>
+        {% for form in forms %}
+            <li>
+                <a href="{{ path('app_support_show', {'id': form.id}) }}">{{ form.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
 </body>
 <footer class="text-center text-lg-start bg-light text-muted fixed-bottom">
@@ -137,7 +128,5 @@
         <a class="text-reset fw-bold" href="https://mytravel.com/">MyTravel.com</a>
     </div>
     <!-- Copyright -->
-
-    <button class="btn btn-primary" onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 </footer>
 </html>
