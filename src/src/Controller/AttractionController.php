@@ -3,120 +3,79 @@
 namespace App\Controller;
 
 use App\Entity\Attraction;
+use App\Form\AttractionType;
 use App\Repository\AttractionRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
 
+#[Route('/attraction')]
 class AttractionController extends AbstractController
 {
-    /**
-     * @Route(path="/attractions",methods={"GET"})
-     *
-     * @param AttractionRepository $attractionRepository
-     * @return Response
-     */
+    #[Route('/', name: 'app_attraction_index', methods: ['GET'])]
     public function index(AttractionRepository $attractionRepository): Response
     {
-        $attractions = $attractionRepository->findAll();
-
-        return $this->render('attraction/attractions.html.twig', [
-            'attractions' => $attractions
+        return $this->render('attraction/index.html.twig', [
+            'attractions' => $attractionRepository->findAll(),
         ]);
     }
 
-    /**
-     * @Route(path="/attraction/{id}",methods={"GET"})
-     *
-     * @param Attraction $attraction
-     * @return Response
-     */
-    public function view(Attraction $attraction): Response
+    #[Route('/new', name: 'app_attraction_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, AttractionRepository $attractionRepository): Response
     {
-        return $this->render('attraction/attraction.html.twig', [
-            'attraction' => $attraction
+        $attraction = new Attraction();
+        $attraction->setCreatedAt(new \DateTimeImmutable('now'));
+        $attraction->setUpdatedAt(new \DateTimeImmutable('now'));
+
+        $form = $this->createForm(AttractionType::class, $attraction);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $attractionRepository->add($attraction);
+            return $this->redirectToRoute('app_attraction_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('attraction/new.html.twig', [
+            'attraction' => $attraction,
+            'form' => $form,
         ]);
     }
 
-    /**
-     * @Route(path="/attractions/new")
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @return Response
-     */
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}', name: 'app_attraction_show', methods: ['GET'])]
+    public function show(Attraction $attraction): Response
     {
-        if ($request->isMethod("POST")) {
+        return $this->render('attraction/show.html.twig', [
+            'attraction' => $attraction,
+        ]);
+    }
 
-            $name = $request->request->get("name");
-            $shortDescription = $request->request->get("shortDescription");
-            $fullDescription = $request->request->get("fullDescription");
-            $score = $request->request->get("score");
-            $createdAt = new \DateTimeImmutable('now');
+    #[Route('/{id}/edit', name: 'app_attraction_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Attraction $attraction, AttractionRepository $attractionRepository): Response
+    {
+        $attraction->setUpdatedAt(new \DateTimeImmutable('now'));
+        $form = $this->createForm(AttractionType::class, $attraction);
+        $form->handleRequest($request);
 
-            $attraction = new Attraction();
-            $attraction->setName($name);
-            $attraction->setShortDescription($shortDescription);
-            $attraction->setFullDescription($fullDescription);
-            $attraction->setScore($score);
-            $attraction->setCreatedAt($createdAt);
-
-            $entityManager->persist($attraction);
-            $entityManager->flush();
-
+        if ($form->isSubmitted() && $form->isValid()) {
+            $attractionRepository->add($attraction);
+            return $this->redirectToRoute('app_attraction_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('attraction/createNewAttraction.html.twig');
+        return $this->renderForm('attraction/edit.html.twig', [
+            'attraction' => $attraction,
+            'form' => $form,
+        ]);
     }
 
-    /**
-     * @Route(path="/attraction/{id}/edit")
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @return Response
-     */
-    public function edit(Attraction $attraction, Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}', name: 'app_attraction_delete', methods: ['POST'])]
+    public function delete(Request $request, Attraction $attraction, AttractionRepository $attractionRepository): Response
     {
-        if ($request->isMethod("POST")) {
-
-            $name = $request->request->get("name");
-            $shortDescription = $request->request->get("shortDescription");
-            $fullDescription = $request->request->get("fullDescription");
-            $score = $request->request->get("score");
-            $updatedAt = new \DateTimeImmutable('now');
-
-            $attraction->setName($name);
-            $attraction->setShortDescription($shortDescription);
-            $attraction->setFullDescription($fullDescription);
-            $attraction->setScore($score);
-            $attraction->setUpdatedAt($updatedAt);
-
-            $entityManager->flush();
-
+        if ($this->isCsrfTokenValid('delete'.$attraction->getId(), $request->request->get('_token'))) {
+            $attractionRepository->remove($attraction);
         }
 
-        return $this->render('attraction/editAttraction.html.twig',
-            ['attraction' => $attraction]);
+        return $this->redirectToRoute('app_attraction_index', [], Response::HTTP_SEE_OTHER);
     }
-
-    /**
-     * @Route(path="/attraction/{id}/delete")
-     *
-     * @param Attraction $attraction
-     * @param AttractionRepository $attractionRepository
-     * @return Response
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function delete(Attraction $attraction, AttractionRepository $attractionRepository): Response
-    {
-        $attractionRepository->remove($attraction);
-
-        return $this->redirectToRoute('/attractions');
-    }
-
 }
