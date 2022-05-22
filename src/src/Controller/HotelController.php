@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Hotel;
 use App\Form\HotelType;
 use App\Repository\HotelRepository;
+use App\Search\SearchService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,7 +40,7 @@ class HotelController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_hotel_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_hotel_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function show(Hotel $hotel): Response
     {
         return $this->render('hotel/show.html.twig', [
@@ -64,7 +65,7 @@ class HotelController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_hotel_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_hotel_delete', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function delete(Request $request, Hotel $hotel, HotelRepository $hotelRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$hotel->getId(), $request->request->get('_token'))) {
@@ -72,5 +73,17 @@ class HotelController extends AbstractController
         }
 
         return $this->redirectToRoute('app_hotel_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/search', name: 'app_hotel_search', methods: ['GET'])]
+    public function search(Request $request, SearchService $hotelSearch): Response
+    {
+        $q = $request->query->get('query');
+        $hotels = $hotelSearch->search($q);
+
+        return $this->render('hotel/search.html.twig', [
+            'query' => $q,
+            'hotels' => $hotels,
+        ]);
     }
 }
