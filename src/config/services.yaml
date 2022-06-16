@@ -28,3 +28,13 @@ services:
         arguments: [ "@knp_menu.factory" ]
         tags:
             - { name: knp_menu.menu_builder, method: mainMenu, alias: main }
+
+
+    App\Subscriber\TimeSubscriber:
+        tags:
+            - name: 'doctrine.event_subscriber'
+
+
+    App\Subscriber\UserSubscriber:
+        tags:
+            - name: 'doctrine.event_subscriber'

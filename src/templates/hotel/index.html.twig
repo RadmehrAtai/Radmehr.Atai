@@ -22,6 +22,12 @@
                         <a class="nav-link" href="{{ path('app_room_index') }}">Rooms</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_event_index') }}">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_location_index') }}">Locations</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_support_index') }}">Support</a>
                     </li>
                     <li class="nav-item">
@@ -67,6 +73,8 @@
                 <th scope="col">Grade</th>
                 <th scope="col">NumberOfRooms</th>
                 <th scope="col">PhoneNumber</th>
+                <th scope="col">CreatedAt</th>
+                <th scope="col">UpdatedAt</th>
                 <th scope="col">Capacity</th>
                 <th scope="col">actions</th>
             </tr>
@@ -80,6 +88,8 @@
                 <td>{{ hotel.grade }}</td>
                 <td>{{ hotel.numberOfRooms }}</td>
                 <td>{{ hotel.phoneNumber }}</td>
+                <td>{{ hotel.createdAt ? hotel.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ hotel.updatedAt ? hotel.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ hotel.capacity }}</td>
                 <td>
                     <a class="btn btn-primary" href="{{ path('app_hotel_show', {'id': hotel.id}) }}">show</a>
@@ -96,7 +106,7 @@
 
     <a class="btn btn-primary" href="{{ path('app_hotel_new') }}">Create new</a>
 
-    <footer class="text-center text-lg-start bg-light text-muted fixed-bottom">
+    <footer class="text-center text-lg-start bg-light text-muted">
 
         <section class="border-bottom">
         </section>
