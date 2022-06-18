@@ -2,12 +2,19 @@
 
 namespace App\Entity;
 
+use App\Model\TimeInterface;
+use App\Model\TimeTrait;
+use App\Model\UserInterface;
+use App\Model\UserTrait;
 use App\Repository\RoomRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
-class Room
+class Room implements TimeInterface, UserInterface
 {
+    use TimeTrait;
+    use UserTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]

@@ -2,14 +2,25 @@
 
 namespace App\Entity;
 
+use App\Model\TimeInterface;
+use App\Model\TimeTrait;
+use App\Model\UserInterface;
+use App\Model\UserTrait;
 use App\Repository\HotelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 
 #[ORM\Entity(repositoryClass: HotelRepository::class)]
-class Hotel
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false, hardDelete: true)]
+class Hotel implements TimeInterface, UserInterface
 {
+    use TimeTrait;
+    use UserTrait;
+    use SoftDeleteableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]

@@ -43,7 +43,7 @@ class AttractionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_attraction_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_attraction_show', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function show(Attraction $attraction): Response
     {
         return $this->render('attraction/show.html.twig', [
@@ -69,7 +69,7 @@ class AttractionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_attraction_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_attraction_delete', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function delete(Request $request, Attraction $attraction, AttractionRepository $attractionRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$attraction->getId(), $request->request->get('_token'))) {
