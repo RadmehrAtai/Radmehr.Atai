@@ -1,0 +1,1 @@
+{"version":1,"defects":{"App\\Tests\\SearchServiceTest::testSomething":4,"App\\Tests\\SearchServiceTest::testSearch":4},"times":{"App\\Tests\\SearchServiceTest::testSomething":0.088,"App\\Tests\\FormTest::testSomething":0.154,"App\\Tests\\SearchServiceTest::testSearch":0.085}}

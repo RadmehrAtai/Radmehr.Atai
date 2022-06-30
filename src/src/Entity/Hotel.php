@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: HotelRepository::class)]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false, hardDelete: true)]
@@ -24,32 +25,47 @@ class Hotel implements TimeInterface, UserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    #[Assert\NotBlank()]
+    #[Assert\Length(min:3)]
+    private ?string $name;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $address;
+    #[Assert\NotBlank()]
+    #[Assert\Length(min:3)]
+    private ?string $address;
 
     #[ORM\Column(type: 'integer')]
-    private $grade;
+    #[Assert\Range(notInRangeMessage: "You must be between {{ min }} and {{ max }} to enter", min: 0, max: 5)]
+    #[Assert\NotBlank()]
+    private ?int $grade;
 
     #[ORM\OneToMany(mappedBy: 'hotel', targetEntity: Room::class, orphanRemoval: true)]
     private $rooms;
 
     #[ORM\Column(type: 'integer')]
-    private $numberOfRooms;
+    #[Assert\NotBlank()]
+    private ?int $numberOfRooms;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $phoneNumber;
+    #[Assert\NotBlank()]
+    #[Assert\Length(min:3)]
+    private ?string $phoneNumber;
 
     #[ORM\Column(type: 'integer')]
-    private $capacity;
+    #[Assert\NotBlank()]
+    private ?int $capacity;
 
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return "{$this->name} ( {$this->address} )";
     }
 
     public function getId(): ?int

@@ -19,20 +19,20 @@ class Form implements TimeInterface, UserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
-    private $name;
+    private ?string $name;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
-    private $email;
+    private ?string $email;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'text', length: 2048)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3)]
-    private $message;
+    private ?string $message;
 
     public function getId(): ?int
     {

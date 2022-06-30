@@ -8,6 +8,7 @@ use App\Model\UserInterface;
 use App\Model\UserTrait;
 use App\Repository\RoomRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room implements TimeInterface, UserInterface
@@ -18,22 +19,23 @@ class Room implements TimeInterface, UserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private ?int $id;
 
     #[ORM\Column(type: 'boolean')]
-    private $isEmpty;
+    private ?bool $isEmpty;
 
     #[ORM\Column(type: 'integer')]
-    private $numberOfBeds;
+    #[Assert\GreaterThanOrEqual(1)]
+    private ?int $numberOfBeds;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $roomType;
+    private ?string $roomType;
 
     #[ORM\Column(type: 'integer')]
-    private $floorNumber;
+    private ?int $floorNumber;
 
     #[ORM\Column(type: 'integer')]
-    private $roomNumber;
+    private ?int $roomNumber;
 
     #[ORM\ManyToOne(targetEntity: Hotel::class, inversedBy: 'rooms')]
     #[ORM\JoinColumn(nullable: false)]
