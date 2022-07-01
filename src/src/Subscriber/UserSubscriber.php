@@ -12,7 +12,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class UserSubscriber implements EventSubscriber
 {
-
     /** @var TokenStorageInterface */
     private $tokenStorage;
 

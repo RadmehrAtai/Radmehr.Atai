@@ -11,7 +11,7 @@ class Location extends Attraction
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    public $id;
+    public ?int $id;
 
     #[ORM\Column(type: 'float')]
     public ?float $longitude;

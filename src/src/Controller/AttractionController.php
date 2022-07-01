@@ -5,11 +5,11 @@ namespace App\Controller;
 use App\Entity\Attraction;
 use App\Form\AttractionType;
 use App\Repository\AttractionRepository;
+use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Date;
 
 #[Route('/attraction')]
 class AttractionController extends AbstractController
@@ -26,8 +26,8 @@ class AttractionController extends AbstractController
     public function new(Request $request, AttractionRepository $attractionRepository): Response
     {
         $attraction = new Attraction();
-        $attraction->setCreatedAt(new \DateTimeImmutable('now'));
-        $attraction->setUpdatedAt(new \DateTimeImmutable('now'));
+        $attraction->setCreatedAt(new DateTimeImmutable('now'));
+        $attraction->setUpdatedAt(new DateTimeImmutable('now'));
 
         $form = $this->createForm(AttractionType::class, $attraction);
         $form->handleRequest($request);
@@ -54,7 +54,7 @@ class AttractionController extends AbstractController
     #[Route('/{id}/edit', name: 'app_attraction_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Attraction $attraction, AttractionRepository $attractionRepository): Response
     {
-        $attraction->setUpdatedAt(new \DateTimeImmutable('now'));
+        $attraction->setUpdatedAt(new DateTimeImmutable('now'));
         $form = $this->createForm(AttractionType::class, $attraction);
         $form->handleRequest($request);
 

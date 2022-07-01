@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EventRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
@@ -11,16 +12,16 @@ class Event extends Attraction
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    public $id;
+    public ?int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     public ?string $organizer;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    public ?\DateTimeImmutable $start_datetime;
+    public ?DateTimeImmutable $startAt;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    public ?\DateTimeImmutable $end_datetime;
+    public ?DateTimeImmutable $endAt;
 
     public function getId(): ?int
     {
@@ -39,26 +40,26 @@ class Event extends Attraction
         return $this;
     }
 
-    public function getStartDatetime(): ?\DateTimeImmutable
+    public function getStartAt(): ?DateTimeImmutable
     {
-        return $this->start_datetime;
+        return $this->startAt;
     }
 
-    public function setStartDatetime(\DateTimeImmutable $start_datetime): self
+    public function setStartAt(DateTimeImmutable $startAt): self
     {
-        $this->start_datetime = $start_datetime;
+        $this->startAt = $startAt;
 
         return $this;
     }
 
-    public function getEndDatetime(): ?\DateTimeImmutable
+    public function getEndAt(): ?DateTimeImmutable
     {
-        return $this->end_datetime;
+        return $this->endAt;
     }
 
-    public function setEndDatetime(\DateTimeImmutable $end_datetime): self
+    public function setEndAt(DateTimeImmutable $endAt): self
     {
-        $this->end_datetime = $end_datetime;
+        $this->endAt = $endAt;
 
         return $this;
     }

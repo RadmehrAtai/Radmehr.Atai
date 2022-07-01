@@ -87,7 +87,7 @@
                 <td>{{ room.roomNumber }}</td>
                 <td>
                     <a class="btn btn-primary" href="{{ path('app_room_show', {'id': room.id}) }}">show</a>
-                    <a class="btn btn-primary" href="{{ path('app_room_edit', {'id': room.id}) }}">edit</a>
+                    <a class="btn btn-warning" href="{{ path('app_room_edit', {'id': room.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -100,7 +100,7 @@
 
     <a class="btn btn-primary" href="{{ path('app_room_new') }}">Create new</a>
 
-    <footer class="text-center text-lg-start bg-light text-muted fixed-bottom">
+    <footer class="text-center text-lg-start bg-light text-muted">
 
         <section class="border-bottom">
         </section>

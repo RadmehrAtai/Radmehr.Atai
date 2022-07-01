@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Model\TimeInterface;
+use App\Model\TimeTrait;
 use App\Model\UserInterface;
 use App\Model\UserTrait;
 use App\Repository\AttractionRepository;
@@ -11,32 +13,27 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\InheritanceType("SINGLE_TABLE")]
 #[ORM\DiscriminatorColumn(name: "type", type: "string")]
 #[ORM\DiscriminatorMap(["attraction" => "Attraction", "location" => "Location", "event" => "Event"])]
-class Attraction implements UserInterface
+class Attraction implements UserInterface, TimeInterface
 {
     use UserTrait;
+    use TimeTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    protected $id;
+    protected ?int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    protected $name;
+    protected ?string $name;
 
     #[ORM\Column(type: 'string', length: 255)]
-    protected $shortDescription;
+    protected ?string $shortDescription;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    protected $fullDescription;
+    #[ORM\Column(type: 'text', length: 2048)]
+    protected ?string $fullDescription;
 
     #[ORM\Column(type: 'integer')]
-    protected $score;
-
-    #[ORM\Column(type: 'datetime_immutable')]
-    protected $createdAt;
-
-    #[ORM\Column(type: 'datetime_immutable')]
-    protected $updatedAt;
+    protected ?int $score;
 
     public function getId(): ?int
     {
@@ -87,30 +84,6 @@ class Attraction implements UserInterface
     public function setScore(int $score): self
     {
         $this->score = $score;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }
