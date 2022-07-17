@@ -11,12 +11,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: HotelRepository::class)]
 #[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false, hardDelete: true)]
-class Hotel implements TimeInterface, UserInterface
+class Hotel implements TimeInterface, UserInterface, Translatable
 {
     use TimeTrait;
     use UserTrait;
@@ -29,34 +30,47 @@ class Hotel implements TimeInterface, UserInterface
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank()]
-    #[Assert\Length(min:3)]
-    private ?string $name;
+    #[Assert\Length(min: 3)]
+    #[Gedmo\Translatable]
+    private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank()]
-    #[Assert\Length(min:3)]
-    private ?string $address;
+    #[Assert\Length(min: 3)]
+    #[Gedmo\Translatable]
+    private $address;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\Range(notInRangeMessage: "You must be between {{ min }} and {{ max }} to enter", min: 0, max: 5)]
     #[Assert\NotBlank()]
-    private ?int $grade;
+    private $grade;
 
     #[ORM\OneToMany(mappedBy: 'hotel', targetEntity: Room::class, orphanRemoval: true)]
     private $rooms;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\NotBlank()]
-    private ?int $numberOfRooms;
+    private $numberOfRooms;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank()]
-    #[Assert\Length(min:3)]
-    private ?string $phoneNumber;
+    #[Assert\Length(min: 3)]
+    private $phoneNumber;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\NotBlank()]
-    private ?int $capacity;
+    private $capacity;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'hotels')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $owner;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'hotelsEditor')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $editor;
+
+    #[Gedmo\Locale]
+    private $locale;
 
     public function __construct()
     {
@@ -173,5 +187,34 @@ class Hotel implements TimeInterface, UserInterface
         $this->capacity = $capacity;
 
         return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getEditor(): ?User
+    {
+        return $this->editor;
+    }
+
+    public function setEditor(?User $editor): self
+    {
+        $this->editor = $editor;
+
+        return $this;
+    }
+
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
     }
 }

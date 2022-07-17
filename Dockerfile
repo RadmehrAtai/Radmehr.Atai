@@ -8,17 +8,23 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 # https://stackoverflow.com/a/58694421/1593188
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
+# update
+RUN apt-get -y update
+
 # install git
-RUN apt-get -y update && apt-get -y install git
+RUN apt-get -y install git
 
 # install node
-RUN apt-get -y update && apt-get -y install nodejs npm
+RUN apt-get -y install nodejs npm
+
+# install zip
+RUN apt-get -y install zip
 
 # install mysql driver
 RUN docker-php-ext-install pdo_mysql
 
 # install intl requirements
-RUN apt-get -y update && apt-get install -y libicu-dev
+RUN apt-get install -y libicu-dev
 
 # install intl
 RUN docker-php-ext-install intl

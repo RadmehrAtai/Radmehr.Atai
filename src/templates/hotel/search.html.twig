@@ -62,19 +62,19 @@
         </nav>
     </header>
 
-    <h1>Hotels</h1>
+    <h1>{{ 'app.hotels.title'|trans }}</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Name</th>
-                <th scope="col">Address</th>
-                <th scope="col">Grade</th>
-                <th scope="col">NumberOfRooms</th>
-                <th scope="col">PhoneNumber</th>
-                <th scope="col">Capacity</th>
-                <th scope="col">actions</th>
+                <th scope="col">{{ 'app.hotel.id'|trans }}</th>
+                <th scope="col">{{ 'app.hotel.name'|trans }}</th>
+                <th scope="col">{{ 'app.hotel.address'|trans }}</th>
+                <th scope="col">{{ 'app.hotel.grade'|trans }}</th>
+                <th scope="col">{{ 'app.hotel.numbe'|trans }}</th>
+                <th scope="col">{{ 'app.hotel.phone'|trans }}</th>
+                <th scope="col">{{ 'app.hotel.capacity'|trans }}</th>
+                <th scope="col">{{ 'app.hotel.actions'|trans }}</th>
             </tr>
         </thead>
         <tbody>
@@ -88,19 +88,19 @@
                 <td>{{ hotel.phoneNumber }}</td>
                 <td>{{ hotel.capacity }}</td>
                 <td>
-                    <a class="btn btn-primary" href="{{ path('app_hotel_show', {'id': hotel.id}) }}">show</a>
-                    <a class="btn btn-warning" href="{{ path('app_hotel_edit', {'id': hotel.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('app_hotel_show', {'id': hotel.id}) }}">{{ 'app.hotel.show'|trans }}</a>
+                    <a class="btn btn-warning" href="{{ path('app_hotel_edit', {'id': hotel.id}) }}">{{ 'app.hotel.edit'|trans }}</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">{{ 'app.hotel.not'|trans }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <footer class="text-center text-lg-start bg-light text-muted fixed-bottom">
+    <footer class="text-center text-lg-start bg-light text-muted">
 
         <section class="border-bottom">
         </section>

@@ -63,11 +63,11 @@
     </header>
 
 
-    <h1>Edit Hotel</h1>
+    <h1>{{ 'app.hotel.edit'|trans }}</h1>
 
-    {{ include('hotel/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('hotel/_form.html.twig', {'button_label': 'app.hotel.update'|trans}) }}
 
-    <a class="btn btn-primary" href="{{ path('app_hotel_index') }}">back to list</a>
+    <a class="btn btn-primary" href="{{ path('app_hotel_index') }}">{{ 'app.hotel.back'|trans }}</a>
 
     {{ include('hotel/_delete_form.html.twig') }}
 

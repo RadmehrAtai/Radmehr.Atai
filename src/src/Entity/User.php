@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -31,6 +33,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string')]
     private string $password;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Hotel::class, orphanRemoval: true)]
+    private $hotels;
+
+    #[ORM\OneToMany(mappedBy: 'editor', targetEntity: Hotel::class, orphanRemoval: true)]
+    private $hotelsEditor;
+
+    public function __construct()
+    {
+        $this->hotels = new ArrayCollection();
+        $this->hotelsEditor = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -122,6 +136,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Hotel>
+     */
+    public function getHotels(): Collection
+    {
+        return $this->hotels;
+    }
+
+    public function addHotel(Hotel $hotel): self
+    {
+        if (!$this->hotels->contains($hotel)) {
+            $this->hotels[] = $hotel;
+            $hotel->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHotel(Hotel $hotel): self
+    {
+        if ($this->hotels->removeElement($hotel)) {
+            // set the owning side to null (unless already changed)
+            if ($hotel->getOwner() === $this) {
+                $hotel->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Hotel>
+     */
+    public function getHotelsEditor(): Collection
+    {
+        return $this->hotelsEditor;
+    }
+
+    public function addHotelsEditor(Hotel $hotelsEditor): self
+    {
+        if (!$this->hotelsEditor->contains($hotelsEditor)) {
+            $this->hotelsEditor[] = $hotelsEditor;
+            $hotelsEditor->setEditor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHotelsEditor(Hotel $hotelsEditor): self
+    {
+        if ($this->hotelsEditor->removeElement($hotelsEditor)) {
+            // set the owning side to null (unless already changed)
+            if ($hotelsEditor->getEditor() === $this) {
+                $hotelsEditor->setEditor(null);
+            }
+        }
 
         return $this;
     }

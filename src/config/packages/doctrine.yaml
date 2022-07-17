@@ -16,6 +16,13 @@ doctrine:
                 prefix: 'App\Entity'
                 alias: App
 
+            translatable:
+                type: annotation
+                is_bundle: false
+                prefix: Gedmo\Translatable\Entity
+                dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Translatable/Entity"
+                alias: GedmoTranslatable
+
 #when@test:
 #    doctrine:
 #        dbal:

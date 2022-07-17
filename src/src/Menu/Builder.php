@@ -6,6 +6,7 @@ use App\Entity\Hotel;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
+use function PHPUnit\Framework\isEmpty;
 
 class Builder
 {
@@ -36,11 +37,13 @@ class Builder
         /** @var hotel[] $hotels */
         $hotels = $this->entityManager->getRepository(Hotel::class)->findAll();
 
-        foreach ($hotels as $hotel) {
-            $hotelsMenu->addChild($hotel->getName(), [
-                'route' => 'app_hotel_show',
-                'routeParameters' => ['id' => $hotel->getId()]
-            ]);
+        if (!isEmpty($hotels)) {
+            foreach ($hotels as $hotel) {
+                $hotelsMenu->addChild($hotel->getName(), [
+                    'route' => 'app_hotel_show',
+                    'routeParameters' => ['id' => $hotel->getId()]
+                ]);
+            }
         }
 
         return $menu;

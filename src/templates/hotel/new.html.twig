@@ -62,13 +62,13 @@
         </nav>
     </header>
 
-    <h1>Create new Hotel</h1>
+    <h1>{{ 'app.hotel.create'|trans }}</h1>
 
     {{ include('hotel/_form.html.twig') }}
 
-    <a class="btn btn-primary" href="{{ path('app_hotel_index') }}">back to list</a>
+    <a class="btn btn-primary" href="{{ path('app_hotel_index') }}">{{ 'app.hotel.back'|trans }}</a>
 
-    <footer class="text-center text-lg-start bg-light text-muted fixed-bottom">
+    <footer class="text-center text-lg-start bg-light text-muted">
 
         <section class="border-bottom">
         </section>

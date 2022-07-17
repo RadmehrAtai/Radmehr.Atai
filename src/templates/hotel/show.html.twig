@@ -62,52 +62,52 @@
         </nav>
     </header>
 
-    <h1>Hotel</h1>
+    <h1>{{ 'app.hotel.title'|trans }}</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
+                <th>{{ 'app.hotel.id'|trans }}</th>
                 <td>{{ hotel.id }}</td>
             </tr>
             <tr>
-                <th>Name</th>
+                <th>{{ 'app.hotel.name'|trans }}</th>
                 <td>{{ hotel.name }}</td>
             </tr>
             <tr>
-                <th>Address</th>
+                <th>{{ 'app.hotel.address'|trans }}</th>
                 <td>{{ hotel.address }}</td>
             </tr>
             <tr>
-                <th>Grade</th>
+                <th>{{ 'app.hotel.grade'|trans }}</th>
                 <td>{{ hotel.grade }}</td>
             </tr>
             <tr>
-                <th>NumberOfRooms</th>
+                <th>{{ 'app.hotel.number'|trans }}</th>
                 <td>{{ hotel.numberOfRooms }}</td>
             </tr>
             <tr>
-                <th>PhoneNumber</th>
+                <th>{{ 'app.hotel.phone'|trans }}</th>
                 <td>{{ hotel.phoneNumber }}</td>
             </tr>
             <tr>
-                <th>Capacity</th>
+                <th>{{ 'app.hotel.capacity'|trans }}</th>
                 <td>{{ hotel.capacity }}</td>
             </tr>
             <tr>
-                <th>CreatedAt</th>
+                <th>{{ 'app.hotel.created'|trans }}</th>
                 <td>{{ hotel.createdAt ? hotel.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>UpdatedAt</th>
+                <th>{{ 'app.hotel.updated'|trans }}</th>
                 <td>{{ hotel.updatedAt ? hotel.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a class="btn btn-primary" href="{{ path('app_hotel_index') }}">back to list</a>
+    <a class="btn btn-primary" href="{{ path('app_hotel_index') }}">{{ 'app.hotel.back'|trans }}</a>
 
-    <a class="btn btn-primary" href="{{ path('app_hotel_edit', {'id': hotel.id}) }}">edit</a>
+    <a class="btn btn-warning" href="{{ path('app_hotel_edit', {'id': hotel.id}) }}">{{ 'app.hotel.edit'|trans }}</a>
 
     {{ include('hotel/_delete_form.html.twig') }}
 

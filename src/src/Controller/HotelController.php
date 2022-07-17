@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/hotel')]
+#[Route('/hotel', requirements: ['_locate' => 'en|fa'], defaults: ['_locate' => 'en'])]
 class HotelController extends AbstractController
 {
     #[Route('/', name: 'app_hotel_index', methods: ['GET'])]
@@ -26,8 +26,11 @@ class HotelController extends AbstractController
     public function new(Request $request, HotelRepository $hotelRepository): Response
     {
         $hotel = new Hotel();
+
         $form = $this->createForm(HotelType::class, $hotel);
         $form->handleRequest($request);
+
+        $this->denyAccessUnlessGranted('new', $hotel);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $hotelRepository->add($hotel);
@@ -49,12 +52,16 @@ class HotelController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_hotel_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Hotel $hotel, HotelRepository $hotelRepository): Response
+    public function edit(Request $request, Hotel $hotel, HotelRepository $hotelRepository, $_locale): Response
     {
+        $this->denyAccessUnlessGranted('edit', $hotel);
+
         $form = $this->createForm(HotelType::class, $hotel);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $hotel->setTranslatableLocale($_locale);
+
             $hotelRepository->add($hotel);
             return $this->redirectToRoute('app_hotel_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -68,7 +75,9 @@ class HotelController extends AbstractController
     #[Route('/{id}', name: 'app_hotel_delete', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function delete(Request $request, Hotel $hotel, HotelRepository $hotelRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$hotel->getId(), $request->request->get('_token'))) {
+        $this->denyAccessUnlessGranted('delete', $hotel);
+
+        if ($this->isCsrfTokenValid('delete' . $hotel->getId(), $request->request->get('_token'))) {
             $hotelRepository->remove($hotel);
         }
 
