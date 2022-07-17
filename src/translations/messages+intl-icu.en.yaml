@@ -1,0 +1,34 @@
+forms:
+  hotel:
+    name: Name
+    address: Address
+    grade: Grade
+    number: Number of Rooms
+    phone: Phone Number
+    capacity: Capacity
+
+
+
+app:
+  hotels:
+    title: Hotels
+  hotel:
+    title: Hotel
+    id: Id
+    name: Name
+    address: Address
+    grade: Grade
+    number: NumberOfRooms
+    phone: PhoneNumber
+    created: CreatedAt
+    updated: UpdatedAt
+    capacity: Capacity
+    actions: Actions
+    show: Show
+    edit: Edit
+    update: Update
+    delete: Delete
+    new: Create New
+    not: No records found
+    back: Back to list
+    create: Create new Hotel

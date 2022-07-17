@@ -78,10 +78,15 @@
     <div class="m-5">
         <div class="input-group m-5">
             <form class="form-inline" method="get" action="{{ path('app_hotel_search') }}">
-                <input class="form-control mr-sm-2" name="query" type="text" placeholder="Search..." aria-label="Search">
+                <input class="form-control mr-sm-2" name="query" type="text" placeholder="Search..."
+                       aria-label="Search">
                 <input class="btn btn-outline-success my-2 my-sm-0" value="Search" type="submit">
             </form>
         </div>
+{#        <div>#}
+{#            <a href="{{ path('app_home_index', ['_locate' : 'en']) }}">en</a>#}
+{#            <a href="{{ path('app_home_index', ['_locate' : 'fa']) }}">fa</a>#}
+{#        </div>#}
     </div>
 
     <div

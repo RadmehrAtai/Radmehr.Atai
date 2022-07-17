@@ -1,0 +1,33 @@
+forms:
+  hotel:
+    name: 'اسم'
+    address: 'آدرس'
+    grade: 'درجه'
+    number: 'تعداد اتاق ها'
+    phone: 'شماره تلفن'
+    capacity: 'ظرفیت'
+
+
+app:
+  hotels:
+    title: 'هتل ها'
+  hotel:
+    title: 'هتل'
+    id: 'آی دی'
+    name: 'اسم'
+    address: 'آدرس'
+    grade: 'درجه'
+    number: 'تعداد اتاق ها'
+    phone: 'شماره تلفن'
+    created: 'ساخته شده در'
+    updated: 'به روز شده در'
+    capacity: 'ظرفیت'
+    actions: 'عمل ها'
+    show: 'نمایش'
+    edit: 'ویرایش'
+    update: 'بروز رسانی'
+    delete: 'حذف'
+    new: 'ساخت جدید'
+    not: 'هیج رکوردی یافت نشد'
+    back: 'برگشت به لیست'
+    create: 'ساخت هتل جدید'
