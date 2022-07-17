@@ -30,36 +30,36 @@ class Hotel implements TimeInterface, UserInterface, Translatable
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank()]
-    #[Assert\Length(min:3)]
+    #[Assert\Length(min: 3)]
     #[Gedmo\Translatable]
-    private ?string $name;
+    private $name;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank()]
-    #[Assert\Length(min:3)]
+    #[Assert\Length(min: 3)]
     #[Gedmo\Translatable]
-    private ?string $address;
+    private $address;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\Range(notInRangeMessage: "You must be between {{ min }} and {{ max }} to enter", min: 0, max: 5)]
     #[Assert\NotBlank()]
-    private ?int $grade;
+    private $grade;
 
     #[ORM\OneToMany(mappedBy: 'hotel', targetEntity: Room::class, orphanRemoval: true)]
     private $rooms;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\NotBlank()]
-    private ?int $numberOfRooms;
+    private $numberOfRooms;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank()]
-    #[Assert\Length(min:3)]
-    private ?string $phoneNumber;
+    #[Assert\Length(min: 3)]
+    private $phoneNumber;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\NotBlank()]
-    private ?int $capacity;
+    private $capacity;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'hotels')]
     #[ORM\JoinColumn(nullable: false)]
@@ -69,10 +69,6 @@ class Hotel implements TimeInterface, UserInterface, Translatable
     #[ORM\JoinColumn(nullable: false)]
     private $editor;
 
-    /**
-     * Used locale to override Translation listener`s locale
-     * this is not a mapped field of entity metadata, just a simple property
-     */
     #[Gedmo\Locale]
     private $locale;
 

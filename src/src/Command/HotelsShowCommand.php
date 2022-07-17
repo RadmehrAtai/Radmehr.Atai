@@ -59,22 +59,22 @@ class HotelsShowCommand extends Command
         $users = $this->userRepository->findAll();
 
         $owners = array();
-        $h = array();
+        $hotelsId = array();
 
         foreach ($hotels as $hotel) {
             foreach ($users as $user) {
                 if ($hotel->getOwner() === $user) {
                     $owners[] = $user->getEmail();
-                    $h[] = $hotel->getName();
+                    $hotelsId[] = $hotel->getId();
                 }
             }
         }
 
         $table = new Table($output);
-        $io->table(['Users', 'Hotels'], [
+        $io->table(['Users Email', 'Hotels ID'], [
             [
-                implode("\n",$owners),
-                implode("\n",$h)
+                implode("\n", $owners),
+                implode("\n", $hotelsId)
             ]
         ]);
         $table->setStyle('box-double');
